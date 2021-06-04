@@ -172,7 +172,7 @@ Grafana 8.0 includes some major changes and new functionality to make using and 
 
 With Grafana 8.0, we are happy to announce that Azure monitor data source now supports querying Azure Resource Graph.
 
-{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-arg.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitoir - Azure Resource Graph" >}}
+{{< figure src="/static/img/docs/azure-monitor/azure-resource-graph.png" class="docs-image--no-shadow" caption="Azure Resource Graph editor" max-width="650px" >}}
 
 There is no extra configuration needed to use this service. Queries are written in the [Kusto Query Language](https://docs.microsoft.com/en-us/azure/governance/resource-graph/concepts/query-language) and Azure Resource Graph query results are formatted as table data. If your credentials give you access to multiple subscriptions, then you can select them before entering the query.
 
@@ -180,7 +180,7 @@ There is no extra configuration needed to use this service. Queries are written 
 
 Customers who host Grafana in Azure (e.g., App Service, Azure Virtual Machines) and have managed identity enabled on their VM, will now be able to avail of managed identity based in Grafana. This will simplify the data source configuration and will allow Azure data sources (e.g., Azure Monitor) to be authenticated in Azure services via the managed identity without having to manually configure service identity via App Registration for each data source.
 
-{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-managed-identity.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitor managed identity configuration" >}}
+{{< figure src="/static/img/docs/azure-monitor/managed-identity.png" max-width="650px" class="docs-image--no-shadow" caption="Azure Monitor managed identity configuration" >}}
 
 To enable this, you will need to set the managed_identity_enabled = true in the Grafana server configuration. See [Configuration]({{< relref "../administration/configuration.md#azure" >}}) for more details.
 
@@ -195,11 +195,13 @@ In addition to Managed Identity simplifying Azure Monitor data source configurat
 
 We have enabled easy exploration of Azure monitor metrics from grafana to Azure portal. With this feature now when a user clicks on the query result of metrics in Grafana, it takes them to the corresponding chart in the Azure portal Metrics Explorer.
 
+{{< figure src="/static/img/docs/azure-monitor/metrics-deep-link.png" max-width="650px" class="docs-image--no-shadow" caption="Azure Monitor managed identity configuration" >}}
+
 ##### Azure Monitor Logs resource-centric queries
 
 In addition to querying Log Analytics Workspaces, you can now query the logs for any individual [supported resource](https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported), or for all resources in a subscription or resource group. This allows you to, for example, monitor all virtual machines in a resource group with just a single query.
 
-{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-logs.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitor Logs resource-centric queries" >}}
+{{< figure src="/static/img/docs/azure-monitor/logs-resource-group.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitor Logs resource-centric queries" >}}
 
 Additionally, Logs has a brand new query editor with improved syntax highlighting and auto-completion.
 
@@ -208,6 +210,8 @@ Additionally, Logs has a brand new query editor with improved syntax highlightin
 In Grafana 7.5 we started the deprecation for seperate Application Insights queries, in favor of querying Application Insights resources through Metrics and Logs. In Grafana 8.0 new Application Insights and Insights Analytics queries cannot be made, and existing queries have been made read only.
 
 Users are recommended to update their queries to Metrics or Logs to avoid interruptions in the future. In a future Grafana update Application Insights support will be removed completely.
+
+Using an Application Insights API_KEY is not supported when querying with Metrics or Logs, so users should make sure Azure Monitor is configued with an Azure AD App Registration that has access to the correct Application Insights resources.
 
 #### Elasticsearch data source
 
