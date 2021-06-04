@@ -46,7 +46,6 @@ For more information about real-time streaming, refer to [Grafana Live documenta
 
 The Prometheus metrics browser allows you to quickly find metrics and select relevant labels to build basic queries. If supported by your Prometheus instance, each metric will show its HELP and TYPE as a tooltip. For more information, refer to [Metrics browser documentation]({{< relref "../datasources/prometheus.md#metrics-browser" >}}).
 
-
 ### Bar chart visualization (beta)
 
 The Bar chart panel is a new visualization that supports categorical data. It only supports one data frame and it needs to have at least one string field that will be used as the category for an X or Y axis and one or more numerical fields.
@@ -163,6 +162,53 @@ These improvements affect any subsequent data updates or interactions, including
 
 The following data source updates are included with this Grafana release.
 
+#### Azure Monitor data source
+
+Grafana 8.0 includes some major changes and new functionality to make using and configuring the Azure Monitor data source easier and simpler, and to pave the way for future improvements.
+
+##### Azure Resource Graph now supported in Azure Monitor data source
+
+**Azure Resource Graph (ARG)** is a service in Azure that is designed to extend Azure Resource Management by providing efficient and performant resource exploration, with the ability to query at scale across a given set of subscriptions so that you can effectively govern your environment. By querying ARG, you can query resources in your Azure account with complex filtering, iteratively explore resources based on governance requirements, and assess the impact of applying policies in a vast cloud environment.
+
+With Grafana 8.0, we are happy to announce that Azure monitor data source now supports querying Azure Resource Graph.
+
+{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-arg.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitoir - Azure Resource Graph" >}}
+
+There is no extra configuration needed to use this service. Queries are written in the [Kusto Query Language](https://docs.microsoft.com/en-us/azure/governance/resource-graph/concepts/query-language) and Azure Resource Graph query results are formatted as table data. If your credentials give you access to multiple subscriptions, then you can select them before entering the query.
+
+##### Managed Identity support for Azure-hosted Grafana
+
+Customers who host Grafana in Azure (e.g., App Service, Azure Virtual Machines) and have managed identity enabled on their VM, will now be able to avail of managed identity based in Grafana. This will simplify the data source configuration and will allow Azure data sources (e.g., Azure Monitor) to be authenticated in Azure services via the managed identity without having to manually configure service identity via App Registration for each data source.
+
+{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-managed-identity.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitor managed identity configuration" >}}
+
+To enable this, you will need to set the managed_identity_enabled = true in the Grafana server configuration. See [Configuration]({{< relref "../administration/configuration.md#azure" >}}) for more details.
+
+```
+[azure]
+managed_identity_enabled = true
+```
+
+In addition to Managed Identity simplifying Azure Monitor data source configuration, using seperate credentials for Azure Monitor Logs has been deprecated and will be removed completely in a future update. To use seperate credentials for Azure Monitor Logs,
+
+##### Added support for deep links to Azure Portal for Metrics
+
+We have enabled easy exploration of Azure monitor metrics from grafana to Azure portal. With this feature now when a user clicks on the query result of metrics in Grafana, it takes them to the corresponding chart in the Azure portal Metrics Explorer.
+
+##### Azure Monitor Logs resource-centric queries
+
+In addition to querying Log Analytics Workspaces, you can now query the logs for any individual [supported resource](https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported), or for all resources in a subscription or resource group. This allows you to, for example, monitor all virtual machines in a resource group with just a single query.
+
+{{< figure src="/static/img/docs/azure-monitor/whats-new-v8-logs.png" max-width="500px" class="docs-image--no-shadow" caption="Azure Monitor Logs resource-centric queries" >}}
+
+Additionally, Logs has a brand new query editor with improved syntax highlighting and auto-completion.
+
+##### Deprecating Application Insights
+
+In Grafana 7.5 we started the deprecation for seperate Application Insights queries, in favor of querying Application Insights resources through Metrics and Logs. In Grafana 8.0 new Application Insights and Insights Analytics queries cannot be made, and existing queries have been made read only.
+
+Users are recommended to update their queries to Metrics or Logs to avoid interruptions in the future. In a future Grafana update Application Insights support will be removed completely.
+
 #### Elasticsearch data source
 
 [Elasticsearch data source]({{< relref "../datasources/elasticsearch.md" >}}) and [Provisioning]({{< relref "../administration/provisioning.md" >}}) were updated as a result of these changes.
@@ -202,7 +248,6 @@ In a prior release, Cloud Monitoring added _preprocessing_ support in their quer
 Whenever a metric is selected in the query editor, a suitable preprocessing option is automatically selected for you. To avoid breaking changes, preprocessing is not enabled by default on existing queries. If you want to use preprocessing for existing queries, you have to manually select one in the query editor.
 
 [Google Cloud Monitoring data source]({{< relref "../datasources/google-cloud-monitoring/_index.md#pre-processing" >}}) was updated as a result of this change.
-
 
 #### Graphite data source
 
