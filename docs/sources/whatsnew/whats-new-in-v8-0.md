@@ -189,7 +189,7 @@ To enable this, you will need to set the managed_identity_enabled = true in the 
 managed_identity_enabled = true
 ```
 
-In addition to Managed Identity simplifying Azure Monitor data source configuration, using seperate credentials for Azure Monitor Logs has been deprecated and will be removed completely in a future update. To use seperate credentials for Azure Monitor Logs,
+In addition to Managed Identity simplifying Azure Monitor data source configuration, using separate credentials for Azure Monitor Logs has been deprecated and will be removed completely in a future update. To use separate credentials for Azure Monitor Logs,
 
 ##### Added support for deep links to Azure Portal for Metrics
 
@@ -207,11 +207,11 @@ Additionally, Logs has a brand new query editor with improved syntax highlightin
 
 ##### Deprecating Application Insights
 
-In Grafana 7.5 we started the deprecation for seperate Application Insights queries, in favor of querying Application Insights resources through Metrics and Logs. In Grafana 8.0 new Application Insights and Insights Analytics queries cannot be made, and existing queries have been made read only.
+In Grafana 7.5 we started the deprecation for separate Application Insights queries, in favor of querying Application Insights resources through Metrics and Logs. In Grafana 8.0 new Application Insights and Insights Analytics queries cannot be made, and existing queries have been made read only.
 
 Users are recommended to update their queries to Metrics or Logs to avoid interruptions in the future. In a future Grafana update Application Insights support will be removed completely.
 
-Using an Application Insights API_KEY is not supported when querying with Metrics or Logs, so users should make sure Azure Monitor is configued with an Azure AD App Registration that has access to the correct Application Insights resources.
+Using an Application Insights API_KEY is not supported when querying with Metrics or Logs, so users should make sure Azure Monitor is configured with an Azure AD App Registration that has access to the correct Application Insights resources.
 
 #### Elasticsearch data source
 
